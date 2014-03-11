@@ -1,0 +1,28 @@
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+       
+        <!-- this extension symlink-deploys content into the document root folder (for instance, the one of apache) -->
+       <type type="php.DeployedSymlinkDeployerCommand" extends="generic.ExecutedScript" deployable-type="php.SymlinkDeployer" container-type="overthere.Host">
+            <generate-deployable type="php.SymlinkDeployer" extends="generic.Resource"/> <!-- Important so deployit sees this as a 'utility' and not something to deploy -->
+            
+            <!-- public -->
+            <property name="symlinkedDocumentRoot" description="The actual document root that is used by the apache server."/> 
+            <property name="nextContentLocation" description="Location of the to-be-deployed-content. Value should be identical to document root as specified in the apache plugin CI"/>
+            <property name="previousContentLocation" description="Location of the previously-deployed-content. For rollback purposes."/>
+            <property name="actualContentLocation" description="Location of the actual-currently-deployed-content. The symlinkedDocumentRoot should be linked to this location."/>
+            <!-- For in case a Varnish cache is to be flushed after succesfull symlink of the server-->
+            <property name="flushVarnish" category="Varnish Options" kind="boolean" required="false" default="false" description="Flush Varnish after rollback or deploy."/>     
+            <property name="hostVarnish" category="Varnish Options" required="false" description="Hostname of the Varnish server in case cache is to be flushed after rollback or deployment." />
+
+            <!-- hidden, the references to the available scripts and order to run -->
+            <property name="createScript" hidden="true" default="symlinkdeploy/symlinkdeploy"/>
+            <property name="destroyScript" hidden="true" default="symlinkdeploy/symlinkdeployrollback"/>
+            <property name="noopScript" hidden="true" default="symlinkdeploy/symlinkdeploy"/> <!-- Run this script every time!-->
+            <property name="createOrder" kind="integer" default="105" hidden="true"/>
+            <property name="destroyOrder" kind="integer" default="5" hidden="true"/>
+            <property name="noopOrder" kind="integer" default="105" hidden="true"/>
+
+        </type>
+
+</synthetic>
