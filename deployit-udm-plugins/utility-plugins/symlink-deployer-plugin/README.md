@@ -1,6 +1,6 @@
 # Symlink Deployer plugin #
 
-This resource plugin can be used for symlinking PHP content to a webserver document root.
+This resource plugin can be used for symlinking content to a webserver document root.
 
 # Overview #
 
@@ -12,8 +12,8 @@ This process is typically used when deploying PHP content to a webserver without
 
 # Requirements #
 
-* **Deployit requirements**
-	* **Deployit**: version 3.7 and up.
+Target system should contain OS type UNIX
+
 
 # Installation #
 
@@ -45,7 +45,7 @@ When running the Symlink deployer in rollback mode, the following process will r
 4. `Previous Content Location` content is copied to `Actual Content Location`.
 5. `Symlinked Document Root` is symlinked to `Actual Content Location`.
 6. `Previous Content Location` content is removed (as a rollback can only be perfomed 1 time).
-7. (optional) a caching server is cached by sending an HTTP BAN to a specified url
+7. (optional) a caching server is refreshed by sending an HTTP BAN to a specified url
 
 
 Flushing options
@@ -56,10 +56,10 @@ Optionally provide a BAN statement in the Varnish Options tab in case you would 
 
 # Configuration #
 
-See the Usage section. Make sure the deployit user is allowed to perform symlink operations on the targetsystem.
+See the Usage section. Make sure the executing user is allowed to perform symlink operations on the target host.
 In case you are symlinking to a webserver, make sure that the value for `Symlinked Document Root` equals the Document Root of the webserver.
-No physical content should be present in the document root of the webserver anymore. Physical content should be located in `Actual Content Location`.
+No physical content should be present in the document root of the webserver. Physical content should be located in `Actual Content Location`.
 
 In default state, the document root should be configured to be a symlink to `Actual Content Location`.
-Make sure the directories for Next Content Location, Previous Content Location, Actual Content Location and Symlinked Document Root are already available on target system with proper permissions. (puppetize!)
+Make sure the directories for Next Content Location, Previous Content Location, Actual Content Location and Symlinked Document Root are already available on target system with proper permissions. (e.g. using a system configuration management tool such as Puppet)
 When specifying directories: omit the final slash '/'.
